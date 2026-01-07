@@ -26,17 +26,17 @@ st.markdown(
 # ======================================================
 # LOAD MODELS & OBJECTS (UNCHANGED)
 # ======================================================
-model = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease\PKL_Files\CatBoost_Model.pkl')
-min_max_scaler = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease\PKL_Files\MinMax_Scaler.pkl')
+model = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\PKL_Files\CatBoost_Model.pkl')
+min_max_scaler = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\PKL_Files\MinMax_Scaler.pkl')
 
-ordinal_encoder = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease\PKL_Files\Ordinal_Encoder.pkl')
-binary_encoder = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease\PKL_Files\Binary_Encoders.pkl')
-target_encoder = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease\PKL_Files\Target_Encoder.pkl')
+ordinal_encoder = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\PKL_Files\Ordinal_Encoder.pkl')
+binary_encoder = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\PKL_Files\Binary_Encoders.pkl')
+target_encoder = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\PKL_Files\Target_Encoder.pkl')
 
-selected_features = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease\PKL_Files\Selected_Features.pkl')
-numerical_columns = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease\PKL_Files\Numerical_Columns.pkl')
-ordinal_columns = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease\PKL_Files\Ordinal_Columns.pkl')
-binary_columns = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease\PKL_Files\Binary_Columns.pkl')
+selected_features = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\PKL_Files\Selected_Features.pkl')
+numerical_columns = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\PKL_Files\Numerical_Columns.pkl')
+ordinal_columns = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\PKL_Files\Ordinal_Columns.pkl')
+binary_columns = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\PKL_Files\Binary_Columns.pkl')
 
 # ======================================================
 # SIDEBAR — PERSONAL INFO
