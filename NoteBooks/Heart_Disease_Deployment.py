@@ -5,9 +5,6 @@ import numpy as np
 import shap
 import matplotlib.pyplot as plt
 
-# ======================================================
-# PAGE CONFIG
-# ======================================================
 st.set_page_config(
     page_title="Heart Disease Prediction",
     page_icon="❤️",
@@ -23,24 +20,20 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# ======================================================
-# LOAD MODELS & OBJECTS (UNCHANGED)
-# ======================================================
-model = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\PKL_Files\CatBoost_Model.pkl')
-min_max_scaler = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\PKL_Files\MinMax_Scaler.pkl')
+# models
+model = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\Models\CatBoost_Model.pkl')
+min_max_scaler = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\Models\MinMax_Scaler.pkl')
 
-ordinal_encoder = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\PKL_Files\Ordinal_Encoder.pkl')
-binary_encoder = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\PKL_Files\Binary_Encoders.pkl')
-target_encoder = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\PKL_Files\Target_Encoder.pkl')
+ordinal_encoder = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\Models\Ordinal_Encoder.pkl')
+binary_encoder = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\Models\Binary_Encoders.pkl')
+target_encoder = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\Models\Target_Encoder.pkl')
 
-selected_features = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\PKL_Files\Selected_Features.pkl')
-numerical_columns = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\PKL_Files\Numerical_Columns.pkl')
-ordinal_columns = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\PKL_Files\Ordinal_Columns.pkl')
-binary_columns = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\PKL_Files\Binary_Columns.pkl')
+selected_features = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\Models\Selected_Features.pkl')
+numerical_columns = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\Models\Numerical_Columns.pkl')
+ordinal_columns = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\Models\Ordinal_Columns.pkl')
+binary_columns = joblib.load(r'C:\Users\moham\Downloads\Amit_Course\Graduation_Project\Heart_Disease_Prediction\Models\Binary_Columns.pkl')
 
-# ======================================================
-# SIDEBAR — PERSONAL INFO
-# ======================================================
+# personal info
 st.sidebar.header("👤 Personal Information")
 
 Age = st.sidebar.number_input("Age", 1, 120, 30)
@@ -48,18 +41,14 @@ Gender = st.sidebar.selectbox("Gender", ["Male", "Female"])
 BMI = st.sidebar.number_input("BMI", 10.0, 50.0, 25.0)
 Sleep_Hours = st.sidebar.number_input("Sleep Hours", 4, 24, 8)
 
-# ======================================================
-# MAIN TABS
-# ======================================================
+## main
 tab1, tab2, tab3 = st.tabs([
     "🩺 Medical History",
     "🧪 Lab Results",
     "📊 Lifestyle"
 ])
 
-# ======================================================
-# MEDICAL HISTORY
-# ======================================================
+# medical history
 with tab1:
     col1, col2 = st.columns(2)
 
@@ -74,9 +63,7 @@ with tab1:
         Low_HDL_Cholesterol = st.selectbox("Low HDL Cholesterol", ["Yes", "No"])
         High_LDL_Cholesterol = st.selectbox("High LDL Cholesterol", ["Yes", "No"])
 
-# ======================================================
-# LAB RESULTS
-# ======================================================
+# lab results
 with tab2:
     col1, col2 = st.columns(2)
 
@@ -88,9 +75,7 @@ with tab2:
         CRP_Level = st.number_input("CRP Level (mg/L)", 0.1, 10.0, 1.0)
         Homocysteine_Level = st.number_input("Homocysteine Level (nmol/L)", 0.1, 10.0, 1.0)
 
-# ======================================================
-# LIFESTYLE
-# ======================================================
+# lifestyle
 with tab3:
     col1, col2 = st.columns(2)
 
@@ -103,9 +88,7 @@ with tab3:
         Alcohol_Consumption = st.selectbox("🍺 Alcohol Consumption", ["High", "Medium", "Low"])
         Sugar_Consumption = st.selectbox("🍬 Sugar Consumption", ["Low", "Medium", "High"])
 
-# ======================================================
-# FEATURE ENGINEERING (UNCHANGED)
-# ======================================================
+# FE
 def age_group(age):
     if age < 40:
         return 'Young'
@@ -151,9 +134,7 @@ def sleep_Quality(sleep):
         return 'Poor'
     return 'Good'
 
-# ======================================================
-# INPUT DATAFRAME (UNCHANGED)
-# ======================================================
+# Dataframe
 input_data = pd.DataFrame([{
     'Age': Age,
     'Gender': Gender,
@@ -185,20 +166,18 @@ input_data = pd.DataFrame([{
     'Sleep_Quality': sleep_Quality(Sleep_Hours)
 }])
 
-# ======================================================
-# PREPROCESSING (UNCHANGED)
-# ======================================================
+# preprocessing
+# scaling
 input_data[numerical_columns] = min_max_scaler.transform(input_data[numerical_columns])
 input_data[ordinal_columns] = ordinal_encoder.transform(input_data[ordinal_columns])
 
+# encoding
 for col in binary_columns:
     input_data[col] = binary_encoder[col].transform(input_data[col])
 
 model_input = input_data[selected_features]
 
-# ======================================================
-# PREDICTION + UI ADDITIONS
-# ======================================================
+# prediction
 st.markdown("---")
 st.subheader("🔍 Prediction")
 
@@ -213,17 +192,12 @@ if predict_btn:
         probability = proba[yes_index]
         result = "Yes" if probability > 0.5 else "No"
 
-    # -------------------------------
-    # RESULT
-    # -------------------------------
     if result == "Yes":
         st.error("⚠️ High Risk of Heart Disease")
     else:
         st.success("✅ Low Risk of Heart Disease")
 
-    # -------------------------------
-    # 📈 RISK PROBABILITY GAUGE
-    # -------------------------------
+    # probability
     st.subheader("📈 Heart Disease Risk Probability")
 
     st.metric(
@@ -231,10 +205,3 @@ if predict_btn:
         value=f"{probability*100:.2f} %",
         delta="High Risk" if probability > 0.5 else "Low Risk"
     )
-
-
-# ======================================================
-# FOOTER
-# ======================================================
-st.markdown("---")
-st.caption("⚠️ Educational use only — not a medical diagnosis")
